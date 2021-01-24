@@ -14,6 +14,8 @@ public class PickableObjectPanel : MonoBehaviour
 
     public GameObject ObjectPanel;
 
+    public bool IsEnabled = false;
+
     public void SetPanelSettings(PickableObject input)
     {
         _objectName.text = input.Name;
@@ -21,6 +23,6 @@ public class PickableObjectPanel : MonoBehaviour
         _objectEffect.text = input.Effect;
     }
 
-    public void EnablePanel() { ObjectPanel.SetActive(true); }
-    public void DisablePanel() { ObjectPanel.SetActive(false); }
+    public void EnablePanel() { ObjectPanel.SetActive(true); IsEnabled = true; }
+    public void DisablePanel() { ObjectPanel.SetActive(false); IsEnabled = false; }
 }

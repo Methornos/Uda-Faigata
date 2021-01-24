@@ -4,6 +4,8 @@ public class CameraRotation : MonoBehaviour
 {
     [SerializeField]
     private PickableObjectPanel _objectPanel;
+    [SerializeField]
+    private EnemyPanel _enemyPanel;
 
     [SerializeField]
     private Vector3 _offset;
@@ -14,8 +16,6 @@ public class CameraRotation : MonoBehaviour
     private Camera _camera;
 
     private RaycastHit _hit;
-
-    private bool _isCatched = false;
 
     private Transform _player;
 
@@ -51,26 +51,34 @@ public class CameraRotation : MonoBehaviour
         {
             if (_hit.transform.tag == "PickableObject")
             {
-                _objectPanel.EnablePanel();
-                _objectPanel.SetPanelSettings(_hit.transform.GetComponent<PickableObject>());
+                if (!_objectPanel.IsEnabled)
+                {
+                    _objectPanel.EnablePanel();
+                    _objectPanel.SetPanelSettings(_hit.transform.GetComponent<PickableObject>());
+                }
             }
             else _objectPanel.DisablePanel();
 
             if (_hit.transform.tag == "Enemy")
             {
+                if (!_enemyPanel.IsEnabled)
+                {
+                    _enemyPanel.EnablePanel();
+                    _enemyPanel.SetPanelSettings(_hit.transform.GetComponent<Enemy>());
+                }
+
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    _isCatched = true;
                     if(Player.Aim.EnemyTarget == null) Player.Aim.EnemyTarget = _hit.transform;
 
                     Player.Aim.On();
                 }
             }
+            else _enemyPanel.DisablePanel();
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            _isCatched = false;
             Player.Aim.EnemyTarget = null;
 
             Player.Aim.Off();
