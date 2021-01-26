@@ -17,12 +17,7 @@ public class EnemyPanel : MonoBehaviour
     public void SetPanelSettings(Enemy enemy)
     {
         _enemyName.text = enemy.Name;
-        _enemyHealth.fillAmount = (enemy.CurrentHealth / enemy.MaxHealth) * 100;
-    }
-
-    public void CalculateHealth()
-    {
-
+        _enemyHealth.fillAmount = (float)enemy.CurrentHealth / (float)enemy.MaxHealth;
     }
 
     public void EnablePanel() { Panel.SetActive(true); IsEnabled = true; }

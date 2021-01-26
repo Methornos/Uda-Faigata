@@ -12,4 +12,15 @@ public class Enemy : MonoBehaviour
     {
         CurrentHealth = MaxHealth;
     }
+
+    public void DealDamage(int damage)
+    {
+        if (CurrentHealth > damage) CurrentHealth -= damage;
+        else KillEnemy();
+    }
+
+    public void KillEnemy()
+    {
+        Destroy(gameObject);
+    }
 }

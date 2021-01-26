@@ -13,6 +13,8 @@ public class IceShot : Skill
 
     private bool _isShot = false;
 
+    public int Damage;
+
     private void Start()
     {
         _enemyTarget = Player.Aim.EnemyTarget;
@@ -34,6 +36,11 @@ public class IceShot : Skill
         else transform.position = Vector3.Lerp(transform.position, _enemyTarget.position, Time.deltaTime * 10f);
     }
 
+    private void LateUpdate()
+    {
+        if (!_enemyTarget) Destroy(gameObject);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Enemy")
@@ -51,5 +58,10 @@ public class IceShot : Skill
     {
         yield return new WaitForSeconds(1.5f);
         _isShot = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (_enemyTarget) _enemyTarget.GetComponent<Enemy>().DealDamage(Damage);
     }
 }

@@ -10,20 +10,21 @@ public class PlayerAim : MonoBehaviour
 
     public bool IsAimed = false;
     public Transform EnemyTarget;
+    public Transform PortalTarget;
 
     [Range(0, 10)]
     public float AimPoints = 10f;
 
     public void On()
     {
-        //Time.timeScale = 0.5f;
         IsAimed = true;
+        Time.timeScale = 0.6f;
     }
 
     public void Off()
     {
-        //Time.timeScale = 1f;
         IsAimed = false;
+        Time.timeScale = 1f;
     }
 
     public void Update()

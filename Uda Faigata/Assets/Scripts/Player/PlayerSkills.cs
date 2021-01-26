@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSkills : MonoBehaviour
 {
-    public List<Skill> ActiveSkills = new List<Skill>(4);
+    public List<Skill> ActiveSkills = new List<Skill>(3);
     [HideInInspector]
     public List<Skill> AllSkills;
 
@@ -15,17 +15,17 @@ public class PlayerSkills : MonoBehaviour
         {
             ActiveSkills[0].UseSkill();
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             ActiveSkills[1].UseSkill();
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        else if(Input.GetKeyUp(KeyCode.V))
+        {
+            ActiveSkills[1].DeactivateSkill();
+        }
+        if (Input.GetKeyDown(KeyCode.F))
         {
             ActiveSkills[2].UseSkill();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ActiveSkills[3].UseSkill();
         }
     }
 }

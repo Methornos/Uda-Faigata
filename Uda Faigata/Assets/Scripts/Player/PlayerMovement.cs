@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private TrailRenderer _boostTrail;
 
-    private Rigidbody _rb;
+    
     private Transform _camera;
 
     private Collision _collision;
@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     private bool _isBoostCd = false;
 
     public bool IsBoosted = false;
+
+    [HideInInspector]
+    public Rigidbody _rb;
 
     public float Speed = 10f;
     public float JumpForce = 300f;
@@ -74,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!IsBoosted)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift)) StartBoost();
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !_isBoostCd) StartBoost();
 
             if (BoostPoints < 10
                 && !_isBoostCd)
@@ -108,14 +111,14 @@ public class PlayerMovement : MonoBehaviour
     private void StartBoost()
     {
         IsBoosted = true;
-        Speed = 90;
+        Speed *= 1.5f;
         _boostTrail.time = 0.5f;
     }
 
     private void StopBoost()
     {
         IsBoosted = false;
-        Speed = 60;
+        Speed /= 1.5f;
     }
 
     private void JumpLogic()

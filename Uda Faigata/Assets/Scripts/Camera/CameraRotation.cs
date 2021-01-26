@@ -66,20 +66,35 @@ public class CameraRotation : MonoBehaviour
                     _enemyPanel.EnablePanel();
                     _enemyPanel.SetPanelSettings(_hit.transform.GetComponent<Enemy>());
                 }
+                else _enemyPanel.SetPanelSettings(_hit.transform.GetComponent<Enemy>());
 
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    if(Player.Aim.EnemyTarget == null) Player.Aim.EnemyTarget = _hit.transform;
+                    if (Player.Aim.EnemyTarget == null) Player.Aim.EnemyTarget = _hit.transform;
+                }
+            }
+            else _enemyPanel.DisablePanel();
+
+            if(_hit.transform.tag == "Portal")
+            {
+                if (Input.GetKey(KeyCode.R))
+                {
+                    if (Player.Aim.EnemyTarget == null) Player.Aim.PortalTarget = _hit.transform;
 
                     Player.Aim.On();
                 }
             }
-            else _enemyPanel.DisablePanel();
         }
+        else _enemyPanel.DisablePanel();
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             Player.Aim.EnemyTarget = null;
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Player.Aim.PortalTarget = null;
 
             Player.Aim.Off();
         }
@@ -94,6 +109,15 @@ public class CameraRotation : MonoBehaviour
             transform.rotation = rotation;
 
             transform.position = _player.position + _offset - transform.forward * distance  ;
+        }
+
+        if (Player.Aim.PortalTarget)
+        {
+            Vector3 relativePos = Player.Aim.PortalTarget.position - transform.position;
+            Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            transform.rotation = rotation;
+
+            transform.position = _player.position + _offset - transform.forward * distance;
         }
     }
 
