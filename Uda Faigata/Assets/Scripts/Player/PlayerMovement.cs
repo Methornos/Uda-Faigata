@@ -9,10 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Image _boostImage;
     [SerializeField]
     private ParticleSystem _dustParticle;
-    [SerializeField]
-    private TrailRenderer _boostTrail;
 
-    
     private Transform _camera;
 
     private Collision _collision;
@@ -20,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private bool _isBoostCd = false;
 
     public bool IsBoosted = false;
+
+    public TrailRenderer BoostTrail;
 
     [HideInInspector]
     public Rigidbody _rb;
@@ -40,13 +39,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        BoostLogic();
+        if (!Player.IsHold) BoostLogic();
     }
 
     private void FixedUpdate()
     {
-        MovementLogic();
-        JumpLogic();
+        if(!Player.IsHold)
+        {
+            MovementLogic();
+            JumpLogic();
+        }
     }
 
     private void MovementLogic()
@@ -85,9 +87,9 @@ public class PlayerMovement : MonoBehaviour
                 BoostPoints += Time.deltaTime * 10f;
             }
 
-            if(_boostTrail.time > 0)
+            if(BoostTrail.time > 0)
             {
-                _boostTrail.time -= Time.deltaTime * 0.5f;
+                BoostTrail.time -= Time.deltaTime * 0.5f;
             }
         }
         else
@@ -112,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     {
         IsBoosted = true;
         Speed *= 1.5f;
-        _boostTrail.time = 0.5f;
+        BoostTrail.time = 0.5f;
     }
 
     private void StopBoost()
@@ -139,8 +141,6 @@ public class PlayerMovement : MonoBehaviour
         IsGroundedUpdate(collision, true);
         _collision = collision;
     }
-
-    
 
     private void IsGroundedUpdate(Collision collision, bool value)
     {

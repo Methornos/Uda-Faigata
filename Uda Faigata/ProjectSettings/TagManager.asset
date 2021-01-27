@@ -10,6 +10,7 @@ TagManager:
   - Shell
   - ShotPosition
   - Portal
+  - Holder
   layers:
   - Default
   - TransparentFX

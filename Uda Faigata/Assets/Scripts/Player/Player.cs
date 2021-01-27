@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public static PlayerAim Aim;
 
+    public static bool IsHold = false;
+
     private void Start()
     {
         Health = GetComponent<PlayerHealth>();

@@ -19,6 +19,8 @@ public class CameraRotation : MonoBehaviour
 
     private Transform _player;
 
+    private Transform _holdTarget = null;
+
     public Transform target;
     public float distance = 5.0f;
     public float xSpeed = 120.0f;
@@ -75,17 +77,43 @@ public class CameraRotation : MonoBehaviour
             }
             else _enemyPanel.DisablePanel();
 
-            if(_hit.transform.tag == "Portal")
+            if(_hit.transform.tag == "Holder")
             {
-                if (Input.GetKey(KeyCode.R))
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    _holdTarget = _hit.transform;
+                    _player.position = Vector3.Lerp(_player.position, _holdTarget.GetComponent<Holder>().HoldTransform.position, 1f);
+                    Player.Movement.BoostTrail.time = 0.5f;
+                    Player.Movement._rb.isKinematic = true;
+                    _hit.transform.GetComponent<Animator>().SetBool("IsHold", true);
+                    Player.IsHold = true;
+                }
+            }
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                Player.Aim.On();
+                if (_hit.transform.tag == "Portal")
                 {
                     if (Player.Aim.EnemyTarget == null) Player.Aim.PortalTarget = _hit.transform;
 
-                    Player.Aim.On();
+                    if (Input.GetKeyDown(KeyCode.Mouse0)) _player.position = Player.Aim.PortalTarget.position;
                 }
             }
+            else
+            {
+                Player.Aim.PortalTarget = null;
+
+                Player.Aim.Off();
+            }
         }
-        else _enemyPanel.DisablePanel();
+        else
+        {
+            _enemyPanel.DisablePanel();
+            Player.Aim.PortalTarget = null;
+
+            Player.Aim.Off();
+        }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
@@ -97,6 +125,17 @@ public class CameraRotation : MonoBehaviour
             Player.Aim.PortalTarget = null;
 
             Player.Aim.Off();
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space) &&
+            _holdTarget)
+        {
+            Player.Movement._rb.isKinematic = false;
+            _holdTarget.GetComponent<Animator>().SetBool("IsHold", false);
+            _holdTarget = null;
+            Player.Movement.BoostTrail.time = 0;
+
+            Player.IsHold = false;
         }
     }
 
