@@ -11,6 +11,8 @@ TagManager:
   - ShotPosition
   - Portal
   - Holder
+  - JumpPlace
+  - PlayerKiller
   layers:
   - Default
   - TransparentFX

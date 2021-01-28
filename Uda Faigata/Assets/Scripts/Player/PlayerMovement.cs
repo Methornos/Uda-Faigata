@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private ParticleSystem _dustParticle;
 
-    private Transform _camera;
+    
 
     private Collision _collision;
 
@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     public bool IsBoosted = false;
 
     public TrailRenderer BoostTrail;
+
+    public Transform HoldTarget;
+    public Transform Camera;
 
     [HideInInspector]
     public Rigidbody _rb;
@@ -32,28 +35,25 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _camera = Camera.main.transform;
+        Camera = UnityEngine.Camera.main.transform;
 
-        _rb.AddForce(_camera.forward * 10);
+        _rb.AddForce(Camera.forward * 10);
     }
 
     private void Update()
     {
-        if (!Player.IsHold) BoostLogic();
+        BoostLogic();
     }
 
     private void FixedUpdate()
     {
-        if(!Player.IsHold)
-        {
-            MovementLogic();
-            JumpLogic();
-        }
+        if(!Player.IsHold) MovementLogic();
+        JumpLogic();
     }
 
     private void MovementLogic()
     {
-        Vector3 forward = _camera.TransformDirection(Vector3.forward);
+        Vector3 forward = Camera.TransformDirection(Vector3.forward);
         forward.y = 0;
         forward = forward.normalized;
 
@@ -67,11 +67,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A))
         {
-            _rb.AddForce(-_camera.right * Speed);
+            _rb.AddForce(-Camera.right * Speed);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            _rb.AddForce(_camera.right * Speed);
+            _rb.AddForce(Camera.right * Speed);
         }
     }
 
@@ -127,11 +127,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetAxis("Jump") > 0)
         {
-            if (IsGrounded)
+            if (!Player.IsHold)
             {
-                _rb.AddForce(Vector3.up * JumpForce);
+                if (IsGrounded)
+                {
+                    _rb.AddForce(Vector3.up * JumpForce);
 
-                IsGroundedUpdate(_collision, false);
+                    IsGroundedUpdate(_collision, false);
+                }
+            }
+            else
+            {
+                _rb.isKinematic = false;
+                Player.Movement._rb.AddForce(Vector3.up * (Player.Movement.JumpForce + 1000));
+                Player.Movement._rb.AddForce(Player.Movement.Camera.forward * (Player.Movement.JumpForce + 1000));
+                Player.IsHold = false;
+                HoldTarget.GetComponent<Animator>().SetBool("IsHold", false);
+                StartCoroutine(HolderCd());
             }
         }
     }
@@ -157,5 +169,12 @@ public class PlayerMovement : MonoBehaviour
         _isBoostCd = true;
         yield return new WaitForSeconds(1f);
         _isBoostCd = false;
+    }
+
+    private IEnumerator HolderCd()
+    {
+        yield return new WaitForSeconds(2f);
+        HoldTarget.GetComponent<Collider>().enabled = true;
+        HoldTarget = null;
     }
 }

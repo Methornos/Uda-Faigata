@@ -11,7 +11,7 @@ public class PlayerSkills : MonoBehaviour
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q) &&
-            Player.Aim.IsAimed)
+            Player.Aim.EnemyTarget)
         {
             ActiveSkills[0].UseSkill();
         }

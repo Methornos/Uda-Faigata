@@ -19,8 +19,6 @@ public class CameraRotation : MonoBehaviour
 
     private Transform _player;
 
-    private Transform _holdTarget = null;
-
     public Transform target;
     public float distance = 5.0f;
     public float xSpeed = 120.0f;
@@ -77,18 +75,7 @@ public class CameraRotation : MonoBehaviour
             }
             else _enemyPanel.DisablePanel();
 
-            if(_hit.transform.tag == "Holder")
-            {
-                if(Input.GetKeyDown(KeyCode.E))
-                {
-                    _holdTarget = _hit.transform;
-                    _player.position = Vector3.Lerp(_player.position, _holdTarget.GetComponent<Holder>().HoldTransform.position, 1f);
-                    Player.Movement.BoostTrail.time = 0.5f;
-                    Player.Movement._rb.isKinematic = true;
-                    _hit.transform.GetComponent<Animator>().SetBool("IsHold", true);
-                    Player.IsHold = true;
-                }
-            }
+            
 
             if (Input.GetKey(KeyCode.R))
             {
@@ -125,17 +112,6 @@ public class CameraRotation : MonoBehaviour
             Player.Aim.PortalTarget = null;
 
             Player.Aim.Off();
-        }
-
-        if(Input.GetKeyUp(KeyCode.Space) &&
-            _holdTarget)
-        {
-            Player.Movement._rb.isKinematic = false;
-            _holdTarget.GetComponent<Animator>().SetBool("IsHold", false);
-            _holdTarget = null;
-            Player.Movement.BoostTrail.time = 0;
-
-            Player.IsHold = false;
         }
     }
 

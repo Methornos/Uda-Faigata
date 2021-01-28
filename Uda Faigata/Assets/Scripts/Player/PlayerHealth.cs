@@ -23,13 +23,16 @@ public class PlayerHealth : MonoBehaviour
             }
             else
             {
-                for (int i = _hearts.Count - 1; i > 0; i--)
+                for (int j = 0; j < value; j++)
                 {
-                    if (_hearts[i].activeSelf == true)
+                    for (int i = _hearts.Count - 1; i > 0; i--)
                     {
-                        Health -= value;
-                        _hearts[i].SetActive(false);
-                        return;
+                        if (_hearts[i].activeSelf == true)
+                        {
+                            Health--;
+                            _hearts[i].SetActive(false);
+                            break;
+                        }
                     }
                 }
             }
@@ -58,6 +61,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void Death()
     {
+        for (int i = 0; i < _hearts.Count; i++)
+        {
+            _hearts[i].SetActive(false);
+        }
         Debug.Log("Troop");
     }
 }
