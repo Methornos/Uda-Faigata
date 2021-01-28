@@ -42,13 +42,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        BoostLogic();
+        if (!GamePause.IsPaused) BoostLogic();
     }
 
     private void FixedUpdate()
     {
-        if(!Player.IsHold) MovementLogic();
-        JumpLogic();
+        if (!GamePause.IsPaused)
+        {
+            if (!Player.IsHold) MovementLogic();
+            JumpLogic();
+        }
     }
 
     private void MovementLogic()

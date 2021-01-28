@@ -138,7 +138,8 @@ public class CameraRotation : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target)
+        if (target &&
+            !GamePause.IsPaused)
         {
             distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
 
