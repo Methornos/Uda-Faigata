@@ -75,11 +75,8 @@ public class CameraRotation : MonoBehaviour
             }
             else _enemyPanel.DisablePanel();
 
-            
-
-            if (Input.GetKey(KeyCode.R))
+            if (Player.Aim.IsAimed)
             {
-                Player.Aim.On();
                 if (_hit.transform.tag == "Portal")
                 {
                     if (Player.Aim.EnemyTarget == null) Player.Aim.PortalTarget = _hit.transform;
@@ -100,6 +97,11 @@ public class CameraRotation : MonoBehaviour
             Player.Aim.PortalTarget = null;
 
             Player.Aim.Off();
+        }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            Player.Aim.On();
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))

@@ -10,8 +10,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private ParticleSystem _dustParticle;
 
-    
-
     private Collision _collision;
 
     private bool _isBoostCd = false;
@@ -43,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (!GamePause.IsPaused) BoostLogic();
+        StopLogic();
     }
 
     private void FixedUpdate()
@@ -75,6 +74,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             _rb.AddForce(Camera.right * Speed);
+        }
+    }
+
+    private void StopLogic()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            _rb.velocity = new Vector3(0, 0, 0);
+            Player.Health.ApplyDamage(1);
         }
     }
 
@@ -161,10 +169,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == ("Ground"))
         {
-            IsGrounded = value;
-        }
-
-        if (IsGrounded) _dustParticle.Play();
+            if(value != IsGrounded)
+            {
+                IsGrounded = value;
+                _dustParticle.Play();
+            }
+        }     
     }
 
     private IEnumerator BoostCd()

@@ -9,7 +9,7 @@ public class Menu : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (!_menu.activeSelf) ShowMenu();
             else CloseMenu();
@@ -28,5 +28,13 @@ public class Menu : MonoBehaviour
         _menu.SetActive(false);
         GamePause.IsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

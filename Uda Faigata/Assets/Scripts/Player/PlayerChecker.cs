@@ -4,6 +4,27 @@ using UnityEngine;
 
 public class PlayerChecker : MonoBehaviour
 {
+    [SerializeField]
+    private Color _boostColor;
+
+    private Color _startColor;
+
+    private bool _isBoosted = false;
+
+    private Material _playerMaterial;
+
+    private void Start()
+    {
+        _playerMaterial = GetComponent<MeshRenderer>().material;
+        _startColor = _playerMaterial.color;
+    }
+
+    private void Update()
+    {
+        if (_isBoosted) _playerMaterial.color = Color.Lerp(_playerMaterial.color, _boostColor, Time.deltaTime * 5); 
+        else _playerMaterial.color = Color.Lerp(_playerMaterial.color, _startColor, Time.deltaTime * 5);
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if(collider.transform.tag == "PickableObject")
@@ -14,6 +35,7 @@ public class PlayerChecker : MonoBehaviour
         if (collider.transform.tag == "JumpPlace")
         {
             Player.Movement.JumpForce = 2700;
+            _isBoosted = true;
         }
 
         if (collider.transform.tag == "Holder")
@@ -38,6 +60,7 @@ public class PlayerChecker : MonoBehaviour
         if (collider.transform.tag == "JumpPlace")
         {
             Player.Movement.JumpForce = 1200;
+            _isBoosted = false;
         }
     }
 }
