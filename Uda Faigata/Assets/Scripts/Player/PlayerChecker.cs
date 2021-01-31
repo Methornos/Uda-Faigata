@@ -34,7 +34,7 @@ public class PlayerChecker : MonoBehaviour
 
         if (collider.transform.tag == "JumpPlace")
         {
-            Player.Movement.JumpForce = 2700;
+            Player.Movement.JumpForce = 1300;
             _isBoosted = true;
         }
 
@@ -53,13 +53,18 @@ public class PlayerChecker : MonoBehaviour
         {
             Player.Killer.PlayerFall();
         }
+
+        if(collider.transform.tag == "Bullet")
+        {
+            Player.Health.ApplyDamage(2);
+        }
     }
 
     private void OnTriggerExit(Collider collider)
     {
         if (collider.transform.tag == "JumpPlace")
         {
-            Player.Movement.JumpForce = 1200;
+            Player.Movement.JumpForce = 800;
             _isBoosted = false;
         }
     }

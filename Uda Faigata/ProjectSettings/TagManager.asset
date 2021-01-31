@@ -13,6 +13,7 @@ TagManager:
   - Holder
   - JumpPlace
   - PlayerKiller
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Ground
   - NonPlayer
   - IgnoreLight
-  - 
+  - IgnoreCamera
   - 
   - 
   - 

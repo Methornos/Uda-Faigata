@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 813990736784006784}
   - component: {fileID: 4105445521573686598}
   - component: {fileID: 104500185}
-  - component: {fileID: 1287474538}
   m_Layer: 7
   m_Name: Health
   m_TagString: PickableObject
@@ -112,18 +111,3 @@ MonoBehaviour:
   Name: Healing
   Description: Heals you and makes it okey(okay?)
   Effect: HP +1
---- !u!114 &1287474538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3235895533953633483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0b88d4f32593d642bfc04bf35f7100e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: 
-  Description: 
-  Effect: 

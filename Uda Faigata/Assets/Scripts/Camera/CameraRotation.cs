@@ -6,6 +6,8 @@ public class CameraRotation : MonoBehaviour
     private PickableObjectPanel _objectPanel;
     [SerializeField]
     private EnemyPanel _enemyPanel;
+    [SerializeField]
+    private GameObject _teleportPrticles;
 
     [SerializeField]
     private Vector3 _offset;
@@ -81,7 +83,12 @@ public class CameraRotation : MonoBehaviour
                 {
                     if (Player.Aim.EnemyTarget == null) Player.Aim.PortalTarget = _hit.transform;
 
-                    if (Input.GetKeyDown(KeyCode.Mouse0)) _player.position = Player.Aim.PortalTarget.position;
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        _player.position = Player.Aim.PortalTarget.position;
+                        GameObject particle = Instantiate(_teleportPrticles, Player.Aim.PortalTarget.position, Quaternion.identity);
+                        Destroy(particle, 1f);
+                    }
                 }
             }
             else

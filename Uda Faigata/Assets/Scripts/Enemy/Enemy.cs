@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public int MaxHealth;
     public int CurrentHealth;
 
+    public bool CanShoot = false;
+
     private void Start()
     {
         CurrentHealth = MaxHealth;
@@ -21,6 +23,7 @@ public class Enemy : MonoBehaviour
 
     public void KillEnemy()
     {
+        GetComponent<DestructableObject>().SpawnObjects();
         Destroy(gameObject);
     }
 }

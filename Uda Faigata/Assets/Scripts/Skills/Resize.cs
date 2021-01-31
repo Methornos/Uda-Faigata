@@ -28,6 +28,7 @@ public class Resize : Skill
         Player.Movement._rb.mass *= 2;
         Player.Movement.Speed += 30;
         Player.Movement.JumpForce += 300;
+        Player.IsIncreased = true;
     }
 
     public override void DeactivateSkill()
@@ -36,5 +37,6 @@ public class Resize : Skill
         Player.Movement._rb.mass /= 2;
         Player.Movement.Speed -= 30;
         Player.Movement.JumpForce -= 300;
+        Player.IsIncreased = false;
     }
 }

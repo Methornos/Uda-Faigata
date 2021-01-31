@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public static PlayerKiller Killer;
 
     public static bool IsHold = false;
+    public static bool IsIncreased = false;
     public static Collider HoldTarget;
 
     private void Start()

@@ -18,7 +18,7 @@ public class PlayerKiller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _self.position = new Vector3(_player.position.x, -15, _player.position.z);
+        _self.position = new Vector3(_player.position.x, -30, _player.position.z);
     }
 
     public void PlayerFall()

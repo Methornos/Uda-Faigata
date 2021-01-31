@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            _rb.velocity = new Vector3(0, 0, 0);
+            _rb.velocity = new Vector3(1, 0, 0);
             Player.Health.ApplyDamage(1);
         }
     }
@@ -143,8 +143,6 @@ public class PlayerMovement : MonoBehaviour
                 if (IsGrounded)
                 {
                     _rb.AddForce(Vector3.up * JumpForce);
-
-                    IsGroundedUpdate(_collision, false);
                 }
             }
             else
@@ -159,23 +157,49 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == ("Ground"))
+    //    {
+    //        if (!IsGrounded)
+    //        {
+    //            IsGrounded = true;
+    //            _dustParticle.Play();
+    //        }
+    //    }
+    //}
+
+    private void OnCollisionStay(Collision collision)
     {
-        IsGroundedUpdate(collision, true);
-        _collision = collision;
+        if(collision.transform.tag == "Ground")
+        {
+            if (!IsGrounded) IsGrounded = true;
+        }
     }
 
-    private void IsGroundedUpdate(Collision collision, bool value)
+    private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == ("Ground"))
+        if(collision.transform.tag == "Ground")
         {
-            if(value != IsGrounded)
-            {
-                IsGrounded = value;
-                _dustParticle.Play();
-            }
-        }     
+            IsGrounded = false;
+        }
     }
+
+    //private void IsGroundedUpdate(Collision collision, bool value)
+    //{
+    //    if (collision.gameObject.tag == ("Ground"))
+    //    {
+    //        if(value != IsGrounded)
+    //        {
+    //            IsGrounded = value;
+    //            _dustParticle.Play();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        IsGrounded = false;
+    //    }
+    //}
 
     private IEnumerator BoostCd()
     {
